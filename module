@@ -1,0 +1,39 @@
+#!/bin/sh
+set -eu
+
+# things which ENEXA is supposed to do
+mkdir -p $ENEXA_WRITEABLE_DIRECTORY
+echo "INSERT DATA { <$ENEXA_MODULE_INSTANCE_IRI> <http://example.org/input-parameter-1> '/opt/enexa/data/preprocessed_data_for_extraction.jsonl' }" \
+    |sparql-update "$ENEXA_META_DATA_ENDPOINT"
+	
+echo "INSERT DATA { <$ENEXA_MODULE_INSTANCE_IRI> <http://example.org/input-parameter-2> '/tmp/output' }" \
+    |sparql-update "$ENEXA_META_DATA_ENDPOINT"
+	
+echo "INSERT DATA { <$ENEXA_MODULE_INSTANCE_IRI> <http://example.org/input-parameter-3> '/opt/enexa/data/generation_parameters.json' }" \
+    |sparql-update "$ENEXA_META_DATA_ENDPOINT"
+	
+echo "INSERT DATA { <$ENEXA_MODULE_INSTANCE_IRI> <http://example.org/input-parameter-4> '/tmp/output/KGs' }" \
+    |sparql-update "$ENEXA_META_DATA_ENDPOINT"
+	
+echo "INSERT DATA { <$ENEXA_MODULE_INSTANCE_IRI> <http://example.org/input-parameter-5> 'cpu' }" \
+    |sparql-update "$ENEXA_META_DATA_ENDPOINT"
+
+
+
+# actual example
+#TODO these folders should be created by the code
+mkdir /tmp/output
+mkdir /tmp/output/KGs
+
+#activate virtual environment
+source /opt/enexa/venv/bin/activate
+./python /opt/enexa/scripts/extract_triples.py --input_file $(enexa-parameter "http://example.org/input-parameter-1") --output_folder $(enexa-parameter "http://example.org/input-parameter-2") --generation_parameters $(enexa-parameter "http://example.org/input-parameter-3") --KG_folder $(enexa-parameter "http://example.org/input-parameter-4") --gpu $(enexa-parameter "http://example.org/input-parameter-5")
+enexa-add-file /tmp/output/extractions.jsonl "http://example.org/output-parameter-1"
+enexa-add-file /tmp/output/relations.json "http://example.org/output-parameter-2"
+enexa-add-file /tmp/output/entities.json "http://example.org/output-parameter-3"
+enexa-add-file /tmp/output/types.json "http://example.org/output-parameter-4"
+enexa-add-file /tmp/output/extractions_with_wikidata_triples.jsonl "http://example.org/output-parameter-5"
+enexa-add-file /tmp/output/KGs/test.ttl "http://example.org/output-parameter-6"
+
+
+
