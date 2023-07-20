@@ -1,4 +1,4 @@
-TAG=enexa-example-module:latest
+TAG=enexa-extraction-module:latest
 
 build:
 	docker build -t $(TAG) .
