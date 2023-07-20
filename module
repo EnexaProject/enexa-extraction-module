@@ -29,6 +29,8 @@ source /opt/enexa/venv_coref/bin/activate
 python /opt/enexa/scripts/wikipedia_article_download.py --url_file $(enexa-parameter "http://example.org/UvA/parameters/urls_to_process") --output_dir /tmp/output/pages/
 #enexa-add-file /tmp/output/pages/ "http://example.org/output-parameter-download"
 
+echo $(ls /tmp/output/pages/)
+
 python /opt/enexa/scripts/coref_chunking.py --input_dir /tmp/output/pages/ --output /tmp/output/chunks.jsonl
 enexa-add-file /tmp/output/chunks.jsonl "http://example.org/output-parameter-chunk"
 
