@@ -16,6 +16,9 @@ COPY README.md requirements.txt /opt/enexa/
 RUN python3 -m venv /opt/enexa/venv/
 RUN /bin/bash -c "source /opt/enexa/venv/bin/activate && python3 -m pip install --upgrade pip wheel setuptools && python -m pip install --trusted-host pypi.org --trusted-host files.pythonhosted.org -r /opt/enexa/requirements.txt"
 
+RUN python3 -m venv /opt/enexa/venv_coref/
+RUN /bin/bash -c "source /opt/enexa/venv_coref/bin/activate && python3 -m pip install --upgrade pip wheel setuptools && python -m pip install --trusted-host pypi.org --trusted-host files.pythonhosted.org -r /opt/enexa/requirements_coref.txt"
+
 
 WORKDIR /app
 ADD module ./
