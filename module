@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 set -eu
 
 # things which ENEXA is supposed to do
@@ -27,7 +27,7 @@ mkdir /tmp/output/KGs
 
 #activate virtual environment
 source /opt/enexa/venv/bin/activate
-./python /opt/enexa/scripts/extract_triples.py --input_file $(enexa-parameter "http://example.org/input-parameter-1") --output_folder $(enexa-parameter "http://example.org/input-parameter-2") --generation_parameters $(enexa-parameter "http://example.org/input-parameter-3") --KG_folder $(enexa-parameter "http://example.org/input-parameter-4") --gpu $(enexa-parameter "http://example.org/input-parameter-5")
+python /opt/enexa/scripts/extract_triples.py --input_file $(enexa-parameter "http://example.org/input-parameter-1") --output_folder $(enexa-parameter "http://example.org/input-parameter-2") --generation_parameters $(enexa-parameter "http://example.org/input-parameter-3") --KG_folder $(enexa-parameter "http://example.org/input-parameter-4") --gpu $(enexa-parameter "http://example.org/input-parameter-5")
 enexa-add-file /tmp/output/extractions.jsonl "http://example.org/output-parameter-1"
 enexa-add-file /tmp/output/relations.json "http://example.org/output-parameter-2"
 enexa-add-file /tmp/output/entities.json "http://example.org/output-parameter-3"
