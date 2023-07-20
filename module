@@ -4,11 +4,12 @@ set -eu
 # things which ENEXA is supposed to do
 mkdir -p $ENEXA_WRITEABLE_DIRECTORY
 
-echo "PREFIX enexa: <http://w3id.org/dice-research/enexa/ontology#> INSERT DATA { <$ENEXA_MODULE_INSTANCE_IRI> <http://example.org/UvA/parameters/path_preprocessed_data_for_extraction> <http://example.org/UvAKGs/UMLS> . <http://example.org/UvAKGs/UMLS> enexa:location 'enexa-dir://preprocessed_data_for_extarction.json' }" \
+echo "PREFIX enexa: <http://w3id.org/dice-research/enexa/ontology#> INSERT DATA { <$ENEXA_MODULE_INSTANCE_IRI> <http://example.org/UvA/parameters/path_preprocessed_data_for_extraction> <http://example.org/UvAKGs/UMLS> . <http://example.org/UvAKGs/UMLS> enexa:location 'enexa-dir://preprocessed_data_for_extraction.jsonl' }" \
     |sparql-update "$ENEXA_META_DATA_ENDPOINT"
 	
+
 	
-echo "PREFIX enexa: <http://w3id.org/dice-research/enexa/ontology#> INSERT DATA { <$ENEXA_MODULE_INSTANCE_IRI> <http://example.org/UvA/parameters/path_generation_parameters> <http://example.org/UvAKGs/UMLS> . <http://example.org/UvAKGs/UMLS> enexa:location 'enexa-dir://generation_parameters.json' }" \
+echo "PREFIX enexa: <http://w3id.org/dice-research/enexa/ontology#> INSERT DATA { <$ENEXA_MODULE_INSTANCE_IRI> <http://example.org/UvA/parameters/path_generation_parameters> <http://example.org/UvAKGs/genparams> . <http://example.org/UvAKGs/genparams> enexa:location 'enexa-dir://generation_parameters.json' }" \
     |sparql-update "$ENEXA_META_DATA_ENDPOINT"
 	
 	
