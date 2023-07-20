@@ -3,20 +3,17 @@ set -eu
 
 # things which ENEXA is supposed to do
 mkdir -p $ENEXA_WRITEABLE_DIRECTORY
-echo "INSERT DATA { <$ENEXA_MODULE_INSTANCE_IRI> <http://example.org/input-parameter-1> '/opt/enexa/data/preprocessed_data_for_extraction.jsonl' }" \
+
+echo "PREFIX enexa: <http://w3id.org/dice-research/enexa/ontology#> INSERT DATA { <$ENEXA_MODULE_INSTANCE_IRI> <http://example.org/UvA/parameters/path_preprocessed_data_for_extraction> <http://example.org/UvAKGs/UMLS> . <http://example.org/UvAKGs/UMLS> enexa:location 'enexa-dir://KGs/UMLS' }" \
     |sparql-update "$ENEXA_META_DATA_ENDPOINT"
 	
-echo "INSERT DATA { <$ENEXA_MODULE_INSTANCE_IRI> <http://example.org/input-parameter-2> '/tmp/output' }" \
+	
+echo "PREFIX enexa: <http://w3id.org/dice-research/enexa/ontology#> INSERT DATA { <$ENEXA_MODULE_INSTANCE_IRI> <http://example.org/UvA/parameters/path_generation_parameters> <http://example.org/UvAKGs/UMLS> . <http://example.org/UvAKGs/UMLS> enexa:location 'enexa-dir://generation_parameters.json' }" \
     |sparql-update "$ENEXA_META_DATA_ENDPOINT"
 	
-echo "INSERT DATA { <$ENEXA_MODULE_INSTANCE_IRI> <http://example.org/input-parameter-3> '/opt/enexa/data/generation_parameters.json' }" \
-    |sparql-update "$ENEXA_META_DATA_ENDPOINT"
 	
-echo "INSERT DATA { <$ENEXA_MODULE_INSTANCE_IRI> <http://example.org/input-parameter-4> '/tmp/output/KGs' }" \
-    |sparql-update "$ENEXA_META_DATA_ENDPOINT"
-	
-echo "INSERT DATA { <$ENEXA_MODULE_INSTANCE_IRI> <http://example.org/input-parameter-5> 'cpu' }" \
-    |sparql-update "$ENEXA_META_DATA_ENDPOINT"
+#echo "INSERT DATA { <$ENEXA_MODULE_INSTANCE_IRI> <http://example.org/input-parameter-5> 'cpu' }" \
+#    |sparql-update "$ENEXA_META_DATA_ENDPOINT"
 
 
 
@@ -27,7 +24,7 @@ mkdir /tmp/output/KGs
 
 #activate virtual environment
 source /opt/enexa/venv/bin/activate
-python /opt/enexa/scripts/extract_triples.py --input_file $(enexa-parameter "http://example.org/input-parameter-1") --output_folder $(enexa-parameter "http://example.org/input-parameter-2") --generation_parameters $(enexa-parameter "http://example.org/input-parameter-3") --KG_folder $(enexa-parameter "http://example.org/input-parameter-4") --gpu $(enexa-parameter "http://example.org/input-parameter-5")
+python /opt/enexa/scripts/extract_triples.py --input_file $(enexa-parameter "http://example.org/UvA/parameters/path_preprocessed_data_for_extraction") --output_folder /tmp/output --generation_parameters $(enexa-parameter "http://example.org/UvA/parameters/path_generation_parameters") --KG_folder /tmp/output/KGs --gpu cpu
 enexa-add-file /tmp/output/extractions.jsonl "http://example.org/output-parameter-1"
 enexa-add-file /tmp/output/relations.json "http://example.org/output-parameter-2"
 enexa-add-file /tmp/output/entities.json "http://example.org/output-parameter-3"
