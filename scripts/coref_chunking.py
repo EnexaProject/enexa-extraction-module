@@ -89,7 +89,7 @@ def main():
     parser.add_argument('-o', '--output', type=str, default='/home/finapolat/KG_extraction_for_ENEXA_Hackathon/scripts/data/preprocessed_data_coref.jsonl', help='Output file')
     args = parser.parse_args()
     
-    predictor = Predictor(language="en_core_web_sm", device=-1, model_name="spanbert")
+    predictor = Predictor(language="en_core_web_sm", device=-1, model_name="minilm")
     text_files = read_text_files(args.input_dir)    
     data = get_coref_annotations(text_files, predictor) 
     #data = get_annotations(text_files)
