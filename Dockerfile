@@ -28,4 +28,4 @@ ADD Makefile ./
 CMD ./module
 
 # Add ENEXA utils.
-COPY --from=enexa-utils:1 / /.
+COPY --from=hub.cs.upb.de/enexa/images/enexa-utils:1 / /.

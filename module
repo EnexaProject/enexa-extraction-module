@@ -1,22 +1,22 @@
 #!/bin/bash
 set -eu
 
-# things which ENEXA is supposed to do
-mkdir -p $ENEXA_WRITEABLE_DIRECTORY
-
-echo "PREFIX enexa: <http://w3id.org/dice-research/enexa/ontology#> INSERT DATA { <$ENEXA_MODULE_INSTANCE_IRI> <http://example.org/UvA/parameters/urls_to_process> <http://example.org/UvAKGs/urls> . <http://example.org/UvAKGs/urls> enexa:location 'enexa-dir://urls.json' }" \
+# If this is a test run
+if [ "$TEST_RUN" = true ]
+then  
+  # things which ENEXA is supposed to do
+  mkdir -p $ENEXA_WRITEABLE_DIRECTORY
+  echo "PREFIX enexa: <http://w3id.org/dice-research/enexa/ontology#> INSERT DATA { <$ENEXA_MODULE_INSTANCE_IRI> <http://w3id.org/dice-research/enexa/module/extraction/parameters/urls_to_process> <http://example.org/UvAKGs/urls> . <http://example.org/UvAKGs/urls> enexa:location 'enexa-dir://urls.json' }" \
     |sparql-update "$ENEXA_META_DATA_ENDPOINT"
 	
-
-	
-echo "PREFIX enexa: <http://w3id.org/dice-research/enexa/ontology#> INSERT DATA { <$ENEXA_MODULE_INSTANCE_IRI> <http://example.org/UvA/parameters/path_generation_parameters> <http://example.org/UvAKGs/genparams> . <http://example.org/UvAKGs/genparams> enexa:location 'enexa-dir://generation_parameters.json' }" \
+  echo "PREFIX enexa: <http://w3id.org/dice-research/enexa/ontology#> INSERT DATA { <$ENEXA_MODULE_INSTANCE_IRI> <http://w3id.org/dice-research/enexa/module/extraction/parameters/path_generation_parameters> <http://example.org/UvAKGs/genparams> . <http://example.org/UvAKGs/genparams> enexa:location 'enexa-dir://generation_parameters.json' }" \
     |sparql-update "$ENEXA_META_DATA_ENDPOINT"
 	
 	
 #echo "INSERT DATA { <$ENEXA_MODULE_INSTANCE_IRI> <http://example.org/input-parameter-5> 'cpu' }" \
 #    |sparql-update "$ENEXA_META_DATA_ENDPOINT"
 
-
+fi
 
 # actual example
 #TODO these folders should be created by the code
@@ -26,23 +26,23 @@ mkdir /tmp/output/KGs
 
 #coref
 source /opt/enexa/venv_coref/bin/activate
-python /opt/enexa/scripts/wikipedia_article_download.py --url_file $(enexa-parameter "http://example.org/UvA/parameters/urls_to_process") --output_dir /tmp/output/pages/
+python /opt/enexa/scripts/wikipedia_article_download.py --url_file $(enexa-parameter "http://w3id.org/dice-research/enexa/module/extraction/parameters/urls_to_process") --output_dir /tmp/output/pages/
 #enexa-add-file /tmp/output/pages/ "http://example.org/output-parameter-download"
 
 echo $(ls /tmp/output/pages/)
 
 python /opt/enexa/scripts/coref_chunking.py --input_dir /tmp/output/pages/ --output /tmp/output/chunks.jsonl
-enexa-add-file /tmp/output/chunks.jsonl "http://example.org/output-parameter-chunk"
+enexa-add-file /tmp/output/chunks.jsonl "http://w3id.org/dice-research/enexa/module/extraction/result/chunks"
 
 #activate virtual environment
 source /opt/enexa/venv/bin/activate
-python /opt/enexa/scripts/extract_triples.py --input_file /tmp/output/chunks.jsonl --output_folder /tmp/output --generation_parameters $(enexa-parameter "http://example.org/UvA/parameters/path_generation_parameters") --KG_folder /tmp/output/KGs --gpu cpu
-enexa-add-file /tmp/output/extractions.jsonl "http://example.org/output-parameter-1"
-enexa-add-file /tmp/output/relations.json "http://example.org/output-parameter-2"
-enexa-add-file /tmp/output/entities.json "http://example.org/output-parameter-3"
-enexa-add-file /tmp/output/types.json "http://example.org/output-parameter-4"
-enexa-add-file /tmp/output/extractions_with_wikidata_triples.jsonl "http://example.org/output-parameter-5"
-enexa-add-file /tmp/output/KGs/test.ttl "http://example.org/output-parameter-6"
+python /opt/enexa/scripts/extract_triples.py --input_file /tmp/output/chunks.jsonl --output_folder /tmp/output --generation_parameters $(enexa-parameter "http://w3id.org/dice-research/enexa/module/extraction/parameters/path_generation_parameters") --KG_folder /tmp/output/KGs --gpu cpu
+enexa-add-file /tmp/output/extractions.jsonl "http://w3id.org/dice-research/enexa/module/extraction/result/extractions"
+enexa-add-file /tmp/output/relations.json "http://w3id.org/dice-research/enexa/module/extraction/result/relations"
+enexa-add-file /tmp/output/entities.json "http://w3id.org/dice-research/enexa/module/extraction/result/entities"
+enexa-add-file /tmp/output/types.json "http://w3id.org/dice-research/enexa/module/extraction/result/types"
+enexa-add-file /tmp/output/extractions_with_wikidata_triples.jsonl "http://w3id.org/dice-research/enexa/module/extraction/result/extractions_with_wikidata_triples"
+enexa-add-file /tmp/output/KGs/test.ttl "http://w3id.org/dice-research/enexa/module/extraction/result/triples"
 
 
 
