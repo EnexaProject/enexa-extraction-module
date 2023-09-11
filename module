@@ -6,10 +6,10 @@ if [ "${TEST_RUN:-false}" = true ]
 then  
   # things which ENEXA is supposed to do
   mkdir -p $ENEXA_WRITEABLE_DIRECTORY
-  echo "PREFIX enexa: <http://w3id.org/dice-research/enexa/ontology#> INSERT DATA { <$ENEXA_MODULE_INSTANCE_IRI> <http://w3id.org/dice-research/enexa/module/extraction/parameter/urls_to_process> <http://example.org/UvAKGs/urls> . <http://example.org/UvAKGs/urls> enexa:location 'enexa-dir://urls.json' }" \
+  echo "PREFIX enexa: <http://w3id.org/dice-research/enexa/ontology#> INSERT DATA { GRAPH <$ENEXA_META_DATA_GRAPH> { <$ENEXA_MODULE_INSTANCE_IRI> <http://w3id.org/dice-research/enexa/module/extraction/parameter/urls_to_process> <http://example.org/UvAKGs/urls> . <http://example.org/UvAKGs/urls> enexa:location 'enexa-dir://urls.json' }}" \
     |sparql-update "$ENEXA_META_DATA_ENDPOINT"
 	
-  echo "PREFIX enexa: <http://w3id.org/dice-research/enexa/ontology#> INSERT DATA { <$ENEXA_MODULE_INSTANCE_IRI> <http://w3id.org/dice-research/enexa/module/extraction/parameter/path_generation_parameters> <http://example.org/UvAKGs/genparams> . <http://example.org/UvAKGs/genparams> enexa:location 'enexa-dir://generation_parameters.json' }" \
+  echo "PREFIX enexa: <http://w3id.org/dice-research/enexa/ontology#> INSERT DATA { GRAPH <$ENEXA_META_DATA_GRAPH> { <$ENEXA_MODULE_INSTANCE_IRI> <http://w3id.org/dice-research/enexa/module/extraction/parameter/path_generation_parameters> <http://example.org/UvAKGs/genparams> . <http://example.org/UvAKGs/genparams> enexa:location 'enexa-dir://generation_parameters.json' }}" \
     |sparql-update "$ENEXA_META_DATA_ENDPOINT"
 	
 	

@@ -19,6 +19,7 @@ test:
 	-e ENEXA_WRITEABLE_DIRECTORY=/shared/experiment1 \
 	-e ENEXA_MODULE_INSTANCE_DIRECTORY=/shared/experiment1/module1 \
 	-e ENEXA_MODULE_INSTANCE_IRI=http://example.org/moduleinstance-$$(date +%s) \
+	-e ENEXA_EXPERIMENT_IRI=http://example.org/experiment-$$(date +%s) \
 	-e TEST_RUN=true \
 	--network enexa-utils_default \
 	$(TAG)
