@@ -105,7 +105,8 @@ def main():
     args = parser.parse_args()
     
     data = get_data_from_jsonl(args.input_file)
-    data = data[:5]
+    # reduce data only for debugging!
+    #data = data[:5]
     logging.info(f'Number of lines in the input file: {len(data)}')
     
     logging.info(f'Loading the model and tokenizer...')
