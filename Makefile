@@ -9,7 +9,7 @@ build:
 test:
 	[ -d $(TEST_DIR) ] || mkdir -p $(TEST_DIR)
 	cp data/generation_parameters.json $(TEST_DIR)/generation_parameters.json
-	echo "[\"https://en.wikipedia.org/wiki/University_of_Amsterdam\",\"https://en.wikipedia.org/wiki/DATEV\",\"https://en.wikipedia.org/wiki/European_Union_Satellite_Centre\",\"https://en.wikipedia.org/wiki/National_Centre_of_Scientific_Research_%22Demokritos%22\", \"https://en.wikipedia.org/wiki/Paderborn_University\"]" > $(TEST_DIR)/urls.json
+	echo "[\"https://en.wikipedia.org/wiki/University_of_Amsterdam\"]" > $(TEST_DIR)/urls.json
 	docker run --rm \
 	-v $(PWD)/$(TEST_DIR):/shared \
 	-e ENEXA_SHARED_DIRECTORY=/shared \

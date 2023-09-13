@@ -4,11 +4,17 @@ import os
 import nltk
 import json
 from nltk.tokenize import sent_tokenize
-nltk.download('punkt')
 from crosslingual_coreference import Predictor
 import argparse
 
+def download_model_if_necessary(model):
 
+    downloader = nltk.downloader.Downloader()
+    if(not downloader.is_installed(model)):
+        downloader.download(model)
+
+# Download the necessary nltk model if it is not already installed
+download_model_if_necessary('punkt')
 
 def read_text_files(directory):
     
