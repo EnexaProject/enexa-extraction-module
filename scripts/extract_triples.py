@@ -30,7 +30,8 @@ def add_resources_to_KG(KGL, WIKI, g, ent_dict, rel_dict, type_dict):
         
         g.add((ent, OWL.sameAs, wiki_ent))
         g.add((wiki_ent, WIKI.id, Literal(value.strip(), datatype=XSD.string)))
-        g.add((ent, WIKI.id, Literal(value.strip(), datatype=XSD.string)))
+        g.add((ent, WIKI.id, Literal(value.strip(), datatype=XSD.int)))
+        #g.add((ent, WIKI.id, Literal(value.strip(), datatype=XSD.string)))
         g.add((wiki_ent, RDF.type, WIKI.Entity))
     ###################################################################################
     
