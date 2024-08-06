@@ -1,5 +1,9 @@
 #!/bin/bash
 set -eu
+echo "test3:D"
+echo "instance iri is "+$ENEXA_MODULE_INSTANCE_IRI
+echo "shared directory is "+$ENEXA_SHARED_DIRECTORY
+echo "metadata endpoint is " +$ENEXA_META_DATA_ENDPOINT
 
 # If this is a test run
 if [ "${TEST_RUN:-false}" = true ]
@@ -20,9 +24,9 @@ fi
 
 # actual example
 #TODO these folders should be created by the code
-mkdir /tmp/output
-mkdir /tmp/output/pages
-mkdir /tmp/output/KGs
+mkdir -p /tmp/output
+mkdir -p /tmp/output/pages
+mkdir -p /tmp/output/KGs
 
 #coref
 URL_FILE=$(enexa-parameter "http://w3id.org/dice-research/enexa/module/extraction/parameter/urls_to_process")
